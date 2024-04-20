@@ -1,5 +1,5 @@
 from uagents import Agent, Context, Protocol
-from messages import Iternary, UAgentResponse, UAgentResponseType, KeyValue
+from messages import UAgentResponse, UAgentResponseType, KeyValue
 from uagents.setup import fund_agent_if_low
 from utils.llm import get_llm
 # from utils.llm_gemini import get_llm

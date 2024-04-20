@@ -1,5 +1,5 @@
 from uagents import Agent, Context, Protocol
-from messages import TopDestinations, Iternary, UAgentResponse, UAgentResponseType, KeyValue
+from messages import TopDestinations, UAgentResponse, UAgentResponseType, KeyValue
 from uagents.setup import fund_agent_if_low
 from utils.llm import get_llm
 # from utils.llm_gemini import get_llm
@@ -44,7 +44,7 @@ User preferences: {msg.preferences}
         result = response.strip()
         result = result.split("\n")
         results = list(map(lambda x: KeyValue(key=x, value=x), result))
-        iternary_request = Iternary(destinations="Aspen, Colorado, USA. Aspen is a beautiful mountain town known for its serene mountains and cool temperatures. It offers a range of outdoor activities such as hiking, skiing, and snowboarding. While it can be moderately expensive, you can find meals around $10 USD at local eateries.")
+        # iternary_request = Iternary(destinations="Aspen, Colorado, USA. Aspen is a beautiful mountain town known for its serene mountains and cool temperatures. It offers a range of outdoor activities such as hiking, skiing, and snowboarding. While it can be moderately expensive, you can find meals around $10 USD at local eateries.")
         print(results)
         await ctx.send(
             sender,
