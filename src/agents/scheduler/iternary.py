@@ -10,9 +10,11 @@ import os
 ITERNARY_SEED = os.getenv("ITERNARY_SEED", "iternary really secret phrase :)")
 
 agent = Agent(
-    name="iteranry_agent",
+    name="iternary_agent",
     seed=ITERNARY_SEED
 )
+
+intermediary_agent =  "agent1q0wf3xa58qfn8eayxcn7xhlxl8qhpjnkfdtwpru987afat9wrkxrstxs9q8"
 
 fund_agent_if_low(agent.wallet.address())
 
@@ -27,18 +29,20 @@ User input for dates might not be provided, in which case suggest popular schedu
 If user input for days is present, then suggest a schedule based on user input.
 After listing all the suggestions say END. Schedule should be properly formatted.
 
-User preferences: {msg.options}
+User preferences: {msg.message}
 """
+    print(f"All Prompts before iternary: {msg.message}")
     try:
         print("Before llm.comlete")
-        response = await llm.complete("", prompt, "Response:", max_tokens=500, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
         print("Before ctx.send")
         result = response.strip()
-        result = result.split("\n")
+        # result = result.split("\n")
         await ctx.send(
             "agent1qd99csvyam42gpts65h3ghk95uqm5hwumvaqvf3mq43qesngj2ufkq0w4wy",
             UAgentResponse(
-                options=list(map(lambda x: KeyValue(key=x, value=x), result)),
+                # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
+                message=result,
                 type=UAgentResponseType.FINAL_OPTIONS
             )
         )

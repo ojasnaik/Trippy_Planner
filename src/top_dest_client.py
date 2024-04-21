@@ -1,4 +1,4 @@
-from messages import TopDestinations, UAgentResponse
+from messages import UAgentResponse, UAgentResponseType
 from uagents import Agent, Context
 from uagents.setup import fund_agent_if_low
 import os
@@ -13,18 +13,32 @@ top_dest_client = Agent(
 )
 fund_agent_if_low(top_dest_client.wallet.address())
 
+intermediary_agent =  "agent1q0wf3xa58qfn8eayxcn7xhlxl8qhpjnkfdtwpru987afat9wrkxrstxs9q8"
+iternary_agent = "agent1q2gam6vqryy7zk34n6crf4tpg7ld72deg6hzcvu4jd2ej34aqpayynmz788"
+
 print(f"Top dest client address: {top_dest_client.address}")
 
+# # TODO: CALL INTERMEDIATERY AGENT
 
-top_dest_request = TopDestinations(preferences="new york")
 
-@top_dest_client.on_interval(period=10.0)
+# top_dest_request = TopDestinations(preferences="new york")
+
+@top_dest_client.on_event("startup")
 async def send_message(ctx: Context):
-    await ctx.send("agent1qd2jvf7r3k25x03pcu8920xf7geeeuw3cheqymqejhjj4zcluq8xj9lfld2", top_dest_request)
+
+    # user_input = input("So what's on your mind (next)? Need any suggestions on which city to visit? Want to know about flights? Need to know about hotels? Curious about activities or attractions? If you are satisified by the current itenary then enter 'yes', else lets continue chatting")
+    # if(user_input == 'yes'):
+    #     await ctx.send(iternary_agent, top_dest_request)
+    # else:
+    await ctx.send(intermediary_agent, UAgentResponse(
+                message="",
+                # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
+                type=UAgentResponseType.FINAL_OPTIONS
+            ))
 
 @top_dest_client.on_message(model=UAgentResponse)
 async def message_handler(ctx: Context, _: str, msg: UAgentResponse):
-    ctx.logger.info(f"Received top destination options from: {msg.options}")
+    ctx.logger.info(f"\nThis is your final travel plan: {msg.message}")
     
 
 if __name__ == "__main__":

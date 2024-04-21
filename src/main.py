@@ -6,6 +6,8 @@ import uagents
 # from agents.activities.top_activities import agent as top_activities_agent
 from agents.destinations.top_destinations import agent as top_destinations_agent
 from agents.scheduler.iternary import agent as iternary_agent
+from agents.intermediary.next_agent import agent as intermediary_agent
+from agents.activities.top_activities import agent as top_activities_agent
 # from agents.flights.flights import agent as flights_agent
 
 
@@ -18,6 +20,12 @@ if __name__ == "__main__":
 
     print(f"Adding iternary agent to Bureau: {iternary_agent.address}")
     bureau.add(iternary_agent)
+
+    print(f"Adding top activities agent to Bureau: {top_activities_agent.address}")
+    bureau.add(top_activities_agent)
+
+    print(f"Adding intermediary agent to Bureau: {intermediary_agent.address}")
+    bureau.add(intermediary_agent)
 
     print
     # print(f"Adding flights agent to Bureau: {flights_agent.address}")
