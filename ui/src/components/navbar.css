@@ -1,0 +1,51 @@
+/* Navbar.css */
+
+.nav-container {
+  position: relative;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* subtle shadow for depth */
+  font-family: "Arial", sans-serif; /* Choose a web-safe font for consistency */
+  padding: 0.5rem 2rem;
+  margin-bottom: 2rem;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.navbar h1 {
+  font-size: 2.25rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  color: white; /* A color that stands out, assuming Trippy's theme color */
+  margin: 0; /* Reset any default margin */
+  z-index: 1000;
+}
+
+.navbar .welcome-message {
+  font-size: 1.15rem;
+  color: grey; /* Lighter text for contrast and readability */
+}
+
+/* Add some spacing around the links to ensure they are easily clickable */
+.navbar a {
+  text-decoration: none; /* Removes underline */
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: grey;
+}
+
+.brand-link {
+  text-decoration: none; /* Removes the underline from links */
+  color: inherit; /* Inherits the color from parent for consistency */
+  cursor: pointer;
+}
+
+.brand {
+  color: white;
+  z-index: 1000;
+}

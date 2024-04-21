@@ -1,0 +1,32 @@
+/* Message.css */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-bottom: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.user {
+  align-self: flex-end;
+  background-color: #21a9ff;
+  color: white;
+}
+
+.bot {
+  align-self: flex-start;
+  background-color: #e5e5e5;
+  color: black;
+}

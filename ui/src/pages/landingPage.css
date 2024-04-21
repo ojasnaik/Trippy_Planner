@@ -1,0 +1,94 @@
+/* Additions to LandingPage.css */
+
+/* Text and Button Styling */
+.cta-pretitle,
+.cta-title,
+.cta-description {
+  color: #ffffff; /* White color for text */
+  text-align: center; /* Center the text */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for readability */
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.cta-pretitle {
+  top: 40%; /* Position the pretitle */
+  font-size: 1rem; /* Smaller font size for pretitle */
+  letter-spacing: 1px;
+}
+
+.cta-title {
+  top: 45%; /* Position the title */
+  font-size: 2.5rem; /* Large font size for title */
+  font-weight: bold;
+  margin: 0.5rem 0; /* Space between title and description */
+}
+
+.cta-description {
+  top: 52%; /* Position the description */
+  font-size: 1rem; /* Size of the description text */
+  padding: 0 20%; /* Padding on the sides for text */
+}
+
+/* Input and Button Container */
+.cta-input-button {
+  position: absolute;
+  top: 65%; /* Position the input and button */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center; /* Center the input and button */
+  align-items: center;
+  gap: 20px; /* Space between input and button */
+  z-index: 2;
+}
+
+input[type="text"] {
+  font-size: 1rem; /* Size of the text inside the input */
+  padding: 10px 15px; /* Padding inside the input */
+  border-radius: 5px; /* Rounded corners for the input */
+  border: 2px solid #ffffff; /* White border for the input */
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  color: #333333; /* Text color */
+  margin-right: 10px; /* Space between input and button */
+  width: 300px;
+}
+
+button {
+  padding: 13px 30px; /* Padding inside the button */
+  font-size: 1rem; /* Size of the text inside the button */
+  background-color: #0044b4; /* Background color of the button */
+  color: #ffffff; /* Text color of the button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003399; /* Darker blue on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .cta-title {
+    font-size: 2rem; /* Smaller font size for title */
+  }
+
+  .cta-description {
+    font-size: 0.9rem; /* Smaller font size for description */
+  }
+
+  .cta-input-button {
+    flex-direction: column; /* Stack input and button */
+  }
+
+  input[type="text"],
+  button {
+    width: 80%; /* Full width for smaller screens */
+    margin: 10px auto; /* Centering and adding space between stacked elements */
+  }
+}
