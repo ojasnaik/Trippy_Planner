@@ -6,25 +6,24 @@ import asyncio
 import os
 
 
-TOP_ACTIVITIES_SEED = os.getenv("TOP_ACTIVITIES_SEED", "top_activities really secret phrase :)")
+TOP_DINING_SEED = os.getenv("TOP_DINING_SEED", "top_dining really secret phrase :)")
 
 intermediary_agent =  "agent1q0wf3xa58qfn8eayxcn7xhlxl8qhpjnkfdtwpru987afat9wrkxrstxs9q8"
 
 agent = Agent(
-    name="top_activities",
-    seed=TOP_ACTIVITIES_SEED
+    name="top_dining",
+    seed=TOP_DINING_SEED
 )
 
 fund_agent_if_low(agent.wallet.address())
 
 llm = get_llm()
-top_activities_protocol = Protocol("TopActivities")
+top_dining_protocol = Protocol("TopDining")
 
-# @top_activities_protocol.on_message(model=TopActivities, replies=UAgentResponse)
-@top_activities_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
-async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
+@top_dining_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+async def get_top_dining(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You specialize in recommending tourist activities based on user preferences. If no specifics are given, suggest popular activities at major destinations. If user input is available, provide tailored activity suggestions. Include a brief description for each activity. List all suggestions with each activity separated by a new line and finish with 'END'. User preferences: {msg.message}"""
+    prompt = f"""You recommend dining options based on user preferences. In the absence of specific requests, suggest popular dining spots. With user input, provide recommendations that suit their dietary needs and taste. Also consider their budget and the city or destination they are planning on visiting (these details will be provided after "User preferences". Include a brief description for each restaurant. List your suggestions with each separated by a new line and end with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
         response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
@@ -47,4 +46,4 @@ async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
         ctx.logger.warn(f"{exc}")
         await ctx.send(sender, UAgentResponse(message=str(exc), type=UAgentResponseType.ERROR))
 
-agent.include(top_activities_protocol)
+agent.include(top_dining_protocol)

@@ -24,7 +24,10 @@ agents = {
     "top_destination_agent": "agent1qd2jvf7r3k25x03pcu8920xf7geeeuw3cheqymqejhjj4zcluq8xj9lfld2",
     "iternary_agent": "agent1q2gam6vqryy7zk34n6crf4tpg7ld72deg6hzcvu4jd2ej34aqpayynmz788",
     "client_agent": "agent1qd99csvyam42gpts65h3ghk95uqm5hwumvaqvf3mq43qesngj2ufkq0w4wy",
-    "top_activities_agent": "agent1qvdrwyl2svkfsg248xwwp386gxn0qnpp7q7hppv9yqn9vke9a7lkvu8t6cq"
+    "top_activities_agent": "agent1qvdrwyl2svkfsg248xwwp386gxn0qnpp7q7hppv9yqn9vke9a7lkvu8t6cq",
+    "hotels_agent": "agent1qw38uyxt0cwsg0ctzzdpgh290986kkaq8xht44w98xnde8z9xxsjwl3lkgu",
+    "dining_agent": "agent1qgy3fp93tnr96djxf9rcnz3w22eu4sp4pwu3qx7q8awu959nehy96lv830h",
+    "flights_agent": "agent1q2sd7qx74e05s6zhzuvduk9d04g5cka5rew84n0u5v8ml2j0vv3v2plpjs3"
 }
 
 @next_agent_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)

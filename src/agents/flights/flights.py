@@ -6,25 +6,25 @@ import asyncio
 import os
 
 
-TOP_ACTIVITIES_SEED = os.getenv("TOP_ACTIVITIES_SEED", "top_activities really secret phrase :)")
+TOP_FLIGHTS_SEED = os.getenv("TOP_FLIGHTS_SEED", "top_flights really secret phrase :)")
 
 intermediary_agent =  "agent1q0wf3xa58qfn8eayxcn7xhlxl8qhpjnkfdtwpru987afat9wrkxrstxs9q8"
 
 agent = Agent(
-    name="top_activities",
-    seed=TOP_ACTIVITIES_SEED
+    name="top_flights",
+    seed=TOP_FLIGHTS_SEED
 )
 
 fund_agent_if_low(agent.wallet.address())
 
 llm = get_llm()
-top_activities_protocol = Protocol("TopActivities")
+top_flights_protocol = Protocol("TopFlights")
 
-# @top_activities_protocol.on_message(model=TopActivities, replies=UAgentResponse)
-@top_activities_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
-async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
+# @top_flights_protocol.on_message(model=TopFlights, replies=UAgentResponse)
+@top_flights_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+async def get_top_flights(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You specialize in recommending tourist activities based on user preferences. If no specifics are given, suggest popular activities at major destinations. If user input is available, provide tailored activity suggestions. Include a brief description for each activity. List all suggestions with each activity separated by a new line and finish with 'END'. User preferences: {msg.message}"""
+    prompt = f"""You are programmed to find the best flight options for users. If no specifics are given, suggest popular flight routes. When user preferences are provided, search for flights that match their itinerary and budget constraints. Display options in a list format, each separated by a new line, and end with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
         response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
@@ -47,4 +47,4 @@ async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
         ctx.logger.warn(f"{exc}")
         await ctx.send(sender, UAgentResponse(message=str(exc), type=UAgentResponseType.ERROR))
 
-agent.include(top_activities_protocol)
+agent.include(top_flights_protocol)

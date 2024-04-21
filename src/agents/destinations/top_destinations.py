@@ -24,20 +24,7 @@ top_destinations_protocol = Protocol("TopDestinations")
 @top_destinations_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You are an expert AI in suggesting travel, holiday destination based on some user input.
-User input might not be provided, in which case suggest popular destinations. 
-If user input is present, then suggest destinations based on user input.
-The response should be a single destination, each destination should have information about why it is a good destination. 
-After listing all the suggestions say END. Every destination should be separated by a new line.
-
-Example:
-User input: I want to go to a place with good weather and beaches.
-Response:
-1. Goa, India. Goa is a popular destination for tourists. It has good weather and beaches.
-2. Malé, Maldives. Maldives is a popular destination for tourists. It has good weather and beaches.
-END
-
-User preferences: {msg.message}
+    prompt = f"""You are an expert AI agent in suggesting which destination the user should go to. User input may or may not be provided. Without user input, suggest popular destinations. With user input, tailor your suggestion accordingly. Provide a brief description for the destination explaining why it is recommended. Example response based on user preferences: {msg.message}
 """
     try:
         print("Before llm.comlete")
