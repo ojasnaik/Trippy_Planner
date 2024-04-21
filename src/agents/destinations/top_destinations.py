@@ -29,7 +29,7 @@ async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
     try:
         print("Before llm.comlete")
         print("Prompt: ", prompt)
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send")
         result = response.strip()
         ctx.logger.info(result)

@@ -27,7 +27,7 @@ async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
     prompt = f"""You specialize in recommending tourist activities based on user preferences. If no specifics are given, suggest popular activities at major destinations. If user input is available, provide tailored activity suggestions. Include a brief description for each activity. List all suggestions with each activity separated by a new line and finish with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send (activities)")
         result = response.strip()
 

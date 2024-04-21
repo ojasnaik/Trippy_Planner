@@ -26,7 +26,7 @@ async def get_top_hotels(ctx: Context, sender: str, msg: UAgentResponse):
     prompt = f"""You assist in finding suitable hotels based on user preferences. Suggest popular hotels if no user input is given. With specifics, provide options that match the desired amenities, location, and price range. Each hotel should be listed with a brief description. Separate each suggestion with a new line and conclude with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send (activities)")
         result = response.strip()
 

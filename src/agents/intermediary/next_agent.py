@@ -62,7 +62,7 @@ async def get_next_agent(ctx: Context, sender: str, msg: UAgentResponse):
     """
     try:
         print("Before llm.complete next_agent")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send")
         result = response.strip()
         # result = result.split("\n")

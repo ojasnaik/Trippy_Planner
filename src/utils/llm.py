@@ -103,4 +103,4 @@ class OpenAILLM:
 
 def get_llm():
     # return OpenAILLM(completion_model="text-davinci-003")
-    return OpenAILLM(completion_model="gpt-3.5-turbo")
+    return OpenAILLM(completion_model="gpt-4-turbo")

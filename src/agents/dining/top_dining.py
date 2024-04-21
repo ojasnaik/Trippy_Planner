@@ -26,7 +26,7 @@ async def get_top_dining(ctx: Context, sender: str, msg: UAgentResponse):
     prompt = f"""You recommend dining options based on user preferences. In the absence of specific requests, suggest popular dining spots. With user input, provide recommendations that suit their dietary needs and taste. Also consider their budget and the city or destination they are planning on visiting (these details will be provided after "User preferences". Include a brief description for each restaurant. List your suggestions with each separated by a new line and end with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send (activities)")
         result = response.strip()
 

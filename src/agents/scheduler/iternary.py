@@ -24,17 +24,12 @@ iternary_protocol = Protocol("Iternary")
 @iternary_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You are an expert AI in suggesting an holiday schedule based on some user input of preferred destinations and no of travel days.
-User input for dates might not be provided, in which case suggest popular schedule of 3 days. 
-If user input for days is present, then suggest a schedule based on user input.
-After listing all the suggestions say END. Schedule should be properly formatted.
-
-User preferences: {msg.message}
+    prompt = f"""You are an expert AI agent in suggesting itinerary based on a given conversation between the user and AI agents. You will summarize the conversation into a single itinerary, tailor the itinerary accordingly and conclude with 'END'. User conversation: {msg.message}
 """
     print(f"All Prompts before iternary: {msg.message}")
     try:
         print("Before llm.comlete")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send")
         result = response.strip()
         # result = result.split("\n")

@@ -27,7 +27,7 @@ async def get_top_flights(ctx: Context, sender: str, msg: UAgentResponse):
     prompt = f"""You are programmed to find the best flight options for users. If no specifics are given, suggest popular flight routes. When user preferences are provided, search for flights that match their itinerary and budget constraints. Display options in a list format, each separated by a new line, and end with 'END'. User preferences: {msg.message}"""
     try:
         print("Before llm.comlete (activities)")
-        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["END"])
+        response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
         print("Before ctx.send (activities)")
         result = response.strip()
 
