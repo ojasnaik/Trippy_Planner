@@ -21,10 +21,10 @@ llm = get_llm()
 top_flights_protocol = Protocol("TopFlights")
 
 # @top_flights_protocol.on_message(model=TopFlights, replies=UAgentResponse)
-@top_flights_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+@top_flights_protocol.on_query(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_flights(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You are programmed to find the best flight options for users. If no specifics are given, suggest popular flight routes. When user preferences are provided, search for flights that match their itinerary and budget constraints. Display options in a list format, each separated by a new line, and end with 'END'. User preferences: {msg.message}"""
+    prompt = f"""You are programmed to find the best flight options for users. If no specifics are given, suggest popular flight routes. When user preferences are provided, search for flights that match their itinerary and budget constraints. Display options in a list format, each separated by a new line, and end with 'END'. User preferences: {msg.message}. Plaintext answer without any special characters. Concise answer around 50 words"""
     try:
         print("Before llm.comlete (activities)")
         response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
@@ -33,10 +33,10 @@ async def get_top_flights(ctx: Context, sender: str, msg: UAgentResponse):
 
         ctx.logger.info(result)
         #TODO: send as json to UI
-        final_result = msg.message + "\n" + result
+        final_result = result
         # result = result.split("\n")
         await ctx.send(
-            intermediary_agent,
+            sender,
             UAgentResponse(
                 message=final_result,
                 # options=list(map(lambda x: KeyValue(key=x, value=x), result)),

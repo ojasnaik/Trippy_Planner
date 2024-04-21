@@ -21,10 +21,10 @@ fund_agent_if_low(agent.wallet.address())
 llm = get_llm()
 iternary_protocol = Protocol("Iternary")
 
-@iternary_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+@iternary_protocol.on_query(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You are an expert AI agent in suggesting itinerary based on a given conversation between the user and AI agents. You will summarize the conversation into a single itinerary, tailor the itinerary accordingly and conclude with 'END'. User conversation: {msg.message}
+    prompt = f"""You are an expert AI agent in suggesting itinerary based on a given conversation between the user and AI agents. You will summarize the conversation into a single itinerary, tailor the itinerary accordingly and conclude with 'END'. User conversation: {msg.message}. Plaintext answer without any special characters. Concise answer around 250 words
 """
     print(f"All Prompts before iternary: {msg.message}")
     try:
@@ -34,7 +34,7 @@ async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
         result = response.strip()
         # result = result.split("\n")
         await ctx.send(
-            "agent1qd99csvyam42gpts65h3ghk95uqm5hwumvaqvf3mq43qesngj2ufkq0w4wy",
+            sender,
             UAgentResponse(
                 # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
                 message=result,

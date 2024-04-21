@@ -21,10 +21,10 @@ fund_agent_if_low(agent.wallet.address())
 llm = get_llm()
 top_destinations_protocol = Protocol("TopDestinations")
 
-@top_destinations_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+@top_destinations_protocol.on_query(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You are an expert AI agent in suggesting which destination the user should go to. User input may or may not be provided. Without user input, suggest popular destinations. With user input, tailor your suggestion accordingly. Provide a brief description for the destination explaining why it is recommended. Example response based on user preferences: {msg.message}
+    prompt = f"""You are an expert AI agent in suggesting which destination the user should go to. User input may or may not be provided. Without user input, suggest popular destinations. With user input, tailor your suggestion accordingly. Provide a brief description for the destination explaining why it is recommended. Example response based on user preferences: {msg.message}. Plaintext answer without any special characters. Concise answer around 50 words
 """
     try:
         print("Before llm.comlete")
@@ -34,7 +34,8 @@ async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
         result = response.strip()
         ctx.logger.info(result)
         #TODO: send as json to UI
-        final_result = msg.message + "\n" + result
+        # final_result = msg.message + "\n" + result
+        final_result = result
         # result = result.split("\n")
         # results = list(map(lambda x: KeyValue(key=x, value=x), result))
         # iternary_request = Iternary(destinations="Aspen, Colorado, USA. Aspen is a beautiful mountain town known for its serene mountains and cool temperatures. It offers a range of outdoor activities such as hiking, skiing, and snowboarding. While it can be moderately expensive, you can find meals around $10 USD at local eateries.")
@@ -47,7 +48,7 @@ async def get_top_destinations(ctx: Context, sender: str, msg: UAgentResponse):
         #     )
         # )
 
-        await ctx.send(intermediary_agent, UAgentResponse(
+        await ctx.send(sender, UAgentResponse(
                 message= final_result,
                 type=UAgentResponseType.FINAL_OPTIONS
             ))

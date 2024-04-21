@@ -23,18 +23,18 @@ print(f"Top dest client address: {top_dest_client.address}")
 
 # top_dest_request = TopDestinations(preferences="new york")
 
-@top_dest_client.on_event("startup")
-async def send_message(ctx: Context):
+# @top_dest_client.on_event("startup")
+# async def send_message(ctx: Context):
 
-    # user_input = input("So what's on your mind (next)? Need any suggestions on which city to visit? Want to know about flights? Need to know about hotels? Curious about activities or attractions? If you are satisified by the current itenary then enter 'yes', else lets continue chatting")
-    # if(user_input == 'yes'):
-    #     await ctx.send(iternary_agent, top_dest_request)
-    # else:
-    await ctx.send(intermediary_agent, UAgentResponse(
-                message="",
-                # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
-                type=UAgentResponseType.FINAL_OPTIONS
-            ))
+#     # user_input = input("So what's on your mind (next)? Need any suggestions on which city to visit? Want to know about flights? Need to know about hotels? Curious about activities or attractions? If you are satisified by the current itenary then enter 'yes', else lets continue chatting")
+#     # if(user_input == 'yes'):
+#     #     await ctx.send(iternary_agent, top_dest_request)
+#     # else:
+#     await ctx.send(intermediary_agent, UAgentResponse(
+#                 message="",
+#                 # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
+#                 type=UAgentResponseType.FINAL_OPTIONS
+#             ))
 
 @top_dest_client.on_message(model=UAgentResponse)
 async def message_handler(ctx: Context, _: str, msg: UAgentResponse):

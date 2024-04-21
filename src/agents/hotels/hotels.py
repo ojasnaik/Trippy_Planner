@@ -20,10 +20,10 @@ fund_agent_if_low(agent.wallet.address())
 llm = get_llm()
 top_hotels_protocol = Protocol("TopHotels")
 
-@top_hotels_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+@top_hotels_protocol.on_query(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_hotels(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You assist in finding suitable hotels based on user preferences. Suggest popular hotels if no user input is given. With specifics, provide options that match the desired amenities, location, and price range. Each hotel should be listed with a brief description. Separate each suggestion with a new line and conclude with 'END'. User preferences: {msg.message}"""
+    prompt = f"""You assist in finding suitable hotels based on user preferences. Suggest popular hotels if no user input is given. With specifics, provide options that match the desired amenities, location, and price range. Each hotel should be listed with a brief description. Separate each suggestion with a new line and conclude with 'END'. User preferences: {msg.message} . Plaintext answer without any special characters. Concise answer around 50 words"""
     try:
         print("Before llm.comlete (activities)")
         response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
@@ -32,10 +32,10 @@ async def get_top_hotels(ctx: Context, sender: str, msg: UAgentResponse):
 
         ctx.logger.info(result)
         #TODO: send as json to UI
-        final_result = msg.message + "\n" + result
+        final_result = result
         # result = result.split("\n")
         await ctx.send(
-            intermediary_agent,
+            sender,
             UAgentResponse(
                 message=final_result,
                 # options=list(map(lambda x: KeyValue(key=x, value=x), result)),

@@ -6,6 +6,7 @@ class UAgentResponseType(Enum):
   ERROR = "error"
   SELECT_FROM_OPTIONS = "select_from_options"
   FINAL_OPTIONS = "final_options"
+  FINAL = "final"
 
 class KeyValue(Model):
   key: str

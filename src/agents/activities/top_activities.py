@@ -21,10 +21,10 @@ llm = get_llm()
 top_activities_protocol = Protocol("TopActivities")
 
 # @top_activities_protocol.on_message(model=TopActivities, replies=UAgentResponse)
-@top_activities_protocol.on_message(model=UAgentResponse, replies=UAgentResponse)
+@top_activities_protocol.on_query(model=UAgentResponse, replies=UAgentResponse)
 async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
     ctx.logger.info(f"Received message from {sender}, session: {ctx.session}")
-    prompt = f"""You specialize in recommending tourist activities based on user preferences. If no specifics are given, suggest popular activities at major destinations. If user input is available, provide tailored activity suggestions. Include a brief description for each activity. List all suggestions with each activity separated by a new line and finish with 'END'. User preferences: {msg.message}"""
+    prompt = f"""You specialize in recommending tourist activities based on user preferences. If no specifics are given, suggest popular activities at major destinations. If user input is available, provide tailored activity suggestions. Include a brief description for each activity. List all suggestions with each activity separated by a new line and finish with 'END'. User preferences: {msg.message}. Plaintext answer without any special characters. Concise answer around 50 words"""
     try:
         print("Before llm.comlete (activities)")
         response = await llm.complete("", prompt, "Response:", max_tokens=4096, stop=["\n\nEND"])
@@ -33,10 +33,10 @@ async def get_top_activities(ctx: Context, sender: str, msg: UAgentResponse):
 
         ctx.logger.info(result)
         #TODO: send as json to UI
-        final_result = msg.message + "\n" + result
+        final_result = result
         # result = result.split("\n")
         await ctx.send(
-            intermediary_agent,
+            sender,
             UAgentResponse(
                 message=final_result,
                 # options=list(map(lambda x: KeyValue(key=x, value=x), result)),
