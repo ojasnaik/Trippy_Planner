@@ -7,6 +7,25 @@ from utils.llm import get_llm
 import asyncio
 import os
 from uagents.query import query
+from utils import embedding_utils
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://admin-samarth:sam-password@cluster0.kfzc5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+db = client["trippy_users"]
+collections_visited = db["visited_users"]
+collections_unvisited = db["unvisited_users"]
+
+def get_similar(embeddings1, db):
+    max_id = -1
+    score = 0
+    max_score = 0
+    for user_doc in db.find():
+        embeddings2 = user_doc['itenerary_embeded']
+        score = embedding_utils.cosine_similarity(embeddings1, embeddings2)
+        if(score > max_score):
+            max_id = user_doc['user ID']
+    return max_id
+
 
 INTERMEDIARY_SEED = os.getenv("INTERMEDIARY_SEED", "intermediary really secret phrase :)")
 
@@ -87,6 +106,37 @@ agents = {
 #         type=UAgentResponseType.FINAL_OPTIONS
 #     ))
 
+def print_similar_people(itinerary_str):
+
+    embeddings = embedding_utils.get_embeddings(itinerary_str)
+
+    # TODO: Add a document for current user into the DB
+    # collections_unvisited.insert_one({"itenerary": itinerary_str_unvisited, "itenerary_embeded": embeddings_unvisited, "user ID": 5121, "email": "atishaysjain@gmail.com"})
+    # collections_visited.insert_one({"itenerary": itinerary_str_visited, "itenerary_embeded": embeddings_visited, "user ID": 3327, "email": "atishaysjain@gmail.com", "review": "great place", "rating":4})
+
+
+    # TODO: Get the itenary that is the most similar to us. (visited and unvisited)
+    id_unvisited = get_similar(embeddings, collections_unvisited)
+    query = {"user ID": id_unvisited}
+    unvisited_document = collections_unvisited.find(query)
+
+    id_visited = get_similar(embeddings, collections_visited)
+    query = {"user ID": id_visited}
+    visited_document = collections_visited.find(query)
+
+    # TODO: Display the most similar itenaries (visited and univisited)
+    for document in unvisited_document:
+        print("The following person has similar taste to you and is planning to go to a trip similar to yourself")
+        print(document["email"])
+        print(document["itenerary"])
+
+    for document in visited_document:
+        print("The following person went to a trip like yourself and had the following thought on it")
+        print(document["email"])
+        print(document["itenerary"])
+        print(document["rating"])
+        print(document["review"])
+
 
 @next_agent_client.on_query(model=UAgentResponse, replies={UAgentResponse})
 async def get_next_agent(ctx: Context, sender: str, _query: UAgentResponse):
@@ -111,7 +161,8 @@ async def get_next_agent(ctx: Context, sender: str, _query: UAgentResponse):
                 type=UAgentResponseType.FINAL_OPTIONS
             ))
         result = json.loads(res.decode_payload())
-        print("Result: ", result)
+        print("Result: ", result) 
+        print_similar_people(result["message"])
         await ctx.send(
                 sender,
                 UAgentResponse(
